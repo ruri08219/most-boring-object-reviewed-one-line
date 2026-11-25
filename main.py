@@ -24,6 +24,8 @@ def validate(text):
     """Return an error string, or None when the entry passes the gate."""
     if not text or not text.strip():
         return "entry must not be empty or only whitespace"
+    if text != text.strip():
+        return "entry must not have leading or trailing whitespace"
     if len(text) > MAX_CHARS:
         return "entry is %d characters, over the %d limit" % (len(text), MAX_CHARS)
     if "\n" in text or "\r" in text:
@@ -50,6 +52,7 @@ def main(argv):
     with open(tmp_path, "w", encoding="utf-8", newline="") as handle:
         handle.write(ENTRY)
     os.replace(tmp_path, path)
+    print("entry: %d chars -> %s" % (len(ENTRY), path))
     return 0
 
 
